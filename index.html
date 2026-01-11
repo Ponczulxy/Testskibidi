@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNIMC.PL - Rekrutacja</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        
+        .footer-credit {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+            z-index: 100;
+            pointer-events: none; 
+        }
+    </style>
+</head>
+<body>
+    <div id="intro-overlay">
+        <div style="text-align: center;">
+            <div class="intro-text">UNIMC REKRUTACJA</div>
+            <div class="intro-line"></div>
+        </div>
+    </div>
+
+    <div class="canvas-wrapper">
+        <canvas id="particleCanvas"></canvas>
+    </div>
+
+    <nav class="nav-tabs">
+        <a href="index.html" class="nav-link active">Start</a>
+        <a href="wymagania.html" class="nav-link">Wymagania</a>
+        <a href="podanie.html" class="nav-link">Podanie</a>
+        <a href="auth.html" class="nav-link">Quiz</a>
+    </nav>
+
+    <div class="main-container header-split">
+        <div class="hero-left">
+            <img src="logo.png" alt="UNIMC Logo" class="big-logo">
+        </div>
+        <div class="hero-right">
+            <header class="header-anim" style="opacity: 1; justify-content: flex-start; margin-bottom: 10px;">
+                <span style="color: var(--accent); font-weight: 700; letter-spacing: 5px; font-size: 12px;">SYSTEM REKRUTACYJNY 2026</span>
+            </header>
+            <h1 style="font-size: 50px; font-weight: 900; line-height: 1.1; margin-bottom: 20px;">
+                Zostań częścią <br><span style="color: var(--accent);">UNIMC.PL</span>
+            </h1>
+            <p style="color: #ccc; line-height: 1.8; margin-bottom: 35px; font-weight: 300; max-width: 500px;">
+                Szukamy ambitnych osób do naszej ekipy. Przeczytaj wymagania i wypełnij podanie. Czekamy na Ciebie!
+            </p>
+            <div style="display: flex; gap: 15px;">
+                <a href="podanie.html" class="btn-primary" style="text-decoration: none; width: auto; padding: 20px 50px;">STWÓRZ PODANIE</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-credit">UNIMC.PL</div>
+
+    <script src="particles.js"></script>
+    <script>
+        
+        window.addEventListener('load', () => {
+            const intro = document.getElementById('intro-overlay');
+            setTimeout(() => {
+                intro.classList.add('intro-hidden');
+                setTimeout(() => {
+                    intro.style.display = 'none';
+                }, 1000);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

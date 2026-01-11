@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Weryfikacja... | UNIMC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030303;
+            --success: #00ffaa;
+            --danger: #ff4b2b;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            transition: background 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.accepted { background: radial-gradient(circle at center, #002b1d 0%, #030303 100%); }
+        body.rejected { background: radial-gradient(circle at center, #2b0a00 0%, #030303 100%); }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        .status-icon {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+            display: none;
+            filter: drop-shadow(0 0 0px transparent);
+            transition: filter 1s ease;
+        }
+
+        .accepted .status-icon { filter: drop-shadow(0 0 40px var(--success)); }
+        .rejected .status-icon { filter: drop-shadow(0 0 40px var(--danger)); }
+
+        .path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 1.2s ease-out forwards 0.3s;
+        }
+
+        @keyframes dash { to { stroke-dashoffset: 0; } }
+
+        .scale-up {
+            animation: scaleUp 0.7s cubic-bezier(0.2, 0.8, 0.2, 1.2) forwards;
+        }
+
+        @keyframes scaleUp {
+            from { transform: scale(0.4); opacity: 0; filter: blur(15px); }
+            to { transform: scale(1); opacity: 1; filter: blur(0); }
+        }
+
+        .status-text {
+            font-size: 50px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 20px;
+            margin: 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+        }
+
+        .status-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+            letter-spacing: 5px;
+        }
+
+        .text-success { color: var(--success); text-shadow: 0 0 40px rgba(0, 255, 170, 0.4); }
+        .text-danger { color: var(--danger); text-shadow: 0 0 40px rgba(255, 75, 43, 0.4); }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,255,255,0.05);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .hide { display: none !important; }
+
+        .made-by {
+            position: fixed; bottom: 20px; right: 20px;
+            font-size: 10px; color: rgba(255, 255, 255, 0.2);
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <div id="loading" class="loader"></div>
+
+        <svg id="icon-v" class="status-icon" viewBox="0 0 52 52">
+            <circle cx="26" cy="26" r="25" fill="none" stroke="#00ffaa" stroke-width="2"/>
+            <path class="path" fill="none" stroke="#00ffaa" stroke-width="4" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+
+        <svg id="icon-x" class="status-icon" viewBox="0 0 52 52">
+            <circle cx="26" cy="26" r="25" fill="none" stroke="#ff4b2b" stroke-width="2"/>
+            <path class="path" fill="none" stroke="#ff4b2b" stroke-width="4" d="M15.8 15.8l20.4 20.4M36.2 15.8L15.8 36.2"/>
+        </svg>
+
+        <p id="msg" class="status-text">DECYZJA</p>
+    </div>
+
+    <div class="made-by">MADE BY PONCZULXY_</div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const nickRaw = params.get('nick') || "UŻYTKOWNIK";
+        const status = params.get('status');
+        
+        const WEBHOOK_WYNIKOW = "https://discord.com/api/webhooks/1459887363886026822/eDWjO5jCAMr6OeiLB5SbrD7uArszYfZeFihV0sOk2pxp-YqMCv7aiPjktm9RSjGGFd05";
+        
+        // Link do Twojego logotypu (widoczny po prawej stronie embedu)
+        const LOGO_URL = "https://unimc.pl/img/logo.png"; 
+
+        window.onload = () => {
+            const loader = document.getElementById('loading');
+            const msg = document.getElementById('msg');
+            const body = document.body;
+
+            setTimeout(() => {
+                const isAccepted = status === 'TAK';
+                const statusLabel = isAccepted ? "zaakceptowane" : "odrzucone";
+                const embedColor = isAccepted ? 0x00ffaa : 0xff4b2b;
+                
+                // Formatuje datę na styl ze screena: niedziela, 11 stycznia 2026 12:53
+                const dateString = new Date().toLocaleString('pl-PL', { 
+                    weekday: 'long', 
+                    day: 'numeric', 
+                    month: 'long', 
+                    year: 'numeric', 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                });
+
+                const payload = {
+                    username: "unimc.pl × rekrutacja 🛠",
+                    avatar_url: LOGO_URL,
+                    content: `<@${nickRaw}>`, // Oznacza gracza
+                    embeds: [{
+                        title: "WYNIK REKRUTACJI",
+                        color: embedColor,
+                        description: `Twoje podanie na stanowisko HELPER zostało **${statusLabel}**.\nDziękujemy za udział w rekrutacji. ${isAccepted ? "Zapraszamy na dalszy etap!" : "Powodzenia następnym razem!"}`,
+                        thumbnail: { url: LOGO_URL },
+                        fields: [
+                            {
+                                name: isAccepted ? "Powód akceptacji" : "Powód odrzucenia",
+                                value: isAccepted ? "Dobre podanie :)" : "słabo",
+                                inline: false
+                            },
+                            {
+                                name: "Podanie zostało sprawdzone",
+                                value: `\`${dateString}\``,
+                                inline: false
+                            }
+                        ],
+                        footer: {
+                            text: `unimc.pl • ${new Date().toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' })}`
+                        }
+                    }]
+                };
+
+                fetch(WEBHOOK_WYNIKOW, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                }).then(() => {
+                    loader.classList.add('hide');
+                    
+                    if (isAccepted) {
+                        body.classList.add('accepted');
+                        document.getElementById('icon-v').style.display = 'block';
+                        document.getElementById('icon-v').classList.add('scale-up');
+                        msg.innerText = "ZAAKCEPTOWANO";
+                        msg.classList.add('text-success');
+                    } else {
+                        body.classList.add('rejected');
+                        document.getElementById('icon-x').style.display = 'block';
+                        document.getElementById('icon-x').classList.add('scale-up');
+                        msg.innerText = "ODRZUCONO";
+                        msg.classList.add('text-danger');
+                    }
+                    
+                    msg.classList.add('visible');
+                    setTimeout(() => window.close(), 3500);
+                });
+            }, 1000);
+        };
+    </script>
+</body>
+</html>

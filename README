@@ -1,0 +1,17 @@
+# UniMC Rekrutacja
+
+System rekrutacji w formie quizu dla serwera UniMC.
+
+## Funkcje
+- Quiz rekrutacyjny
+- Sprawdzanie odpowiedzi
+- Wynik końcowy
+
+## Technologie
+- HTML
+- CSS
+- JavaScript
+
+## Uruchomienie
+1. Pobierz repozytorium
+2. Otwórz `index.html` w przeglądarce

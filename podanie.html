@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podanie - UNIMC.PL</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        .form-content {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 20px;
+            text-align: left;
+        }
+
+        
+        .form-content::-webkit-scrollbar { width: 6px; }
+        .form-content::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
+        .form-content::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+        .question-item { margin-bottom: 25px; }
+        
+        .question-label {
+            display: block;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input[type="text"], 
+        input[type="number"], 
+        textarea, 
+        select {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent);
+        }
+
+        textarea { height: 100px; resize: none; }
+        
+        .submit-area { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="canvas-wrapper"><canvas id="particleCanvas"></canvas></div>
+
+    <nav class="nav-tabs">
+        <a href="index.html" class="nav-link">Start</a>
+        <a href="wymagania.html" class="nav-link">Wymagania</a>
+        <a href="podanie.html" class="nav-link active">Podanie</a>
+        <a href="auth.html" class="nav-link">Quiz</a>
+    </nav>
+
+    <div class="main-container">
+        <div class="glass-card card-entrance" style="max-width: 700px; width: 90%;">
+            <h1 style="margin-bottom: 25px; font-weight: 900;">STWÓRZ <span style="color:var(--accent);">PODANIE</span></h1>
+
+            <form id="app-form" class="form-content">
+                
+                <div class="question-item">
+                    <label class="question-label">Nick z Minecrafta</label>
+                    <input type="text" id="p_mc" placeholder="Wpisz swój nick z gry" required>
+                </div>
+
+                <div class="question-item">
+                    <label class="question-label">Nick z Discorda</label>
+                    <input type="text" id="p_dc" placeholder="Twój nick (np. nazwa_uzytkownika)" required>
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 25px;">
+
+                <div class="question-item">
+                    <label class="question-label">1) Jak masz na imię?</label>
+                    <input type="text" id="p1" required>
+                </div>
+
+                <div class="question-item">
+                    <label class="question-label">2) Ile masz lat?</label>
+                    <input type="number" id="p2" required>
+                </div>
+
+                <div class="question-item">
+                    <label class="question-label">3) Posiadasz MINECRAFT PREMIUM?</label>
+                    <select id="p3" required>
+                        <option value="" disabled selected>Wybierz opcję...</option>
+                        <option value="TAK">TAK</option>
+                        <option value="NIE">NIE</option>
+                    </select>
+                </div>
+
+                <div class="question-item">
+                    <label class="question-label">4) Opisz swoją osobę w paru zdaniach.</label>
+                    <textarea id="p4" required></textarea>
+                </div>
+
+                <div class="question-item">
+                    <label class="question-label">5) Wymień pięć swoich wad oraz zalet.</label>
+                    <textarea id="p5" required></textarea>
+                </div>
+
+                <div class="question-item">
+                    <label class="question-label">6) Dlaczego to właśnie Ty powinieneś zostać przyjęty/a?</label>
+                    <textarea id="p6" required></textarea>
+                </div>
+
+                <div class="question-item">
+                    <label class="question-label">7) Czy pełniłeś/as już podobną funkcję na innym serwerze?</label>
+                    <input type="text" id="p7" required>
+                </div>
+
+                <div class="question-item">
+                    <label class="question-label">8) Ile godzin dziennie jesteś w stanie spędzić na serwerze?</label>
+                    <input type="text" id="p8" required>
+                </div>
+
+                <div class="question-item">
+                    <label class="question-label">9) Oceń swoją znajomość ortografii (1-10).</label>
+                    <input type="number" id="p9" min="1" max="10" required>
+                </div>
+
+                <div class="question-item">
+                    <label class="question-label">10) Oceń swoją znajomość regulaminu (1-10).</label>
+                    <input type="number" id="p10" min="1" max="10" required>
+                </div>
+
+                <div class="question-item">
+                    <label class="question-label">11) Oceń (1-10) umiejętności sprawdzania i opisz metodę.</label>
+                    <input type="number" id="p11" min="1" max="10" placeholder="Twoja ocena 1-10" style="margin-bottom:10px;" required>
+                    <textarea id="p11b" placeholder="Opisz krok po kroku twoją metodę sprawdzania..." required></textarea>
+                </div>
+
+                <div class="question-item">
+                    <label class="question-label">12) Gdzie widzisz się za 3 miesiące?</label>
+                    <input type="text" id="p12" required>
+                </div>
+
+            </form>
+
+            <div class="submit-area">
+                <button type="submit" form="app-form" id="submit-btn" class="btn-primary" style="width: 100%;">WYŚLIJ PODANIE</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="particles.js"></script>
+    <script src="podanie.js"></script>
+</body>
+</html>

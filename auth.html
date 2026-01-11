@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weryfikacja - UNIMC.PL</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="canvas-wrapper"><canvas id="particleCanvas"></canvas></div>
+    <nav class="nav-tabs">
+        <a href="index.html" class="nav-link">Start</a>
+        <a href="wymagania.html" class="nav-link">Wymagania</a>
+        <a href="auth.html" class="nav-link active">Quiz</a>
+    </nav>
+    <div class="main-container">
+        <div class="glass-card card-entrance" id="auth-card">
+            <h1 style="color:var(--accent); margin-bottom: 10px; font-weight: 900; text-align: center;">AUTORYZACJA</h1>
+            <p style="opacity: 0.6; font-size: 14px; margin-bottom: 30px; text-align: center;">Wprowadź jednorazowy kod dostępu do egzaminu.</p>
+            <input type="text" id="access-code-input" placeholder="UNIMC-XXXX" 
+                style="width: 100%; padding: 20px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 15px; color: white; text-align: center; font-size: 22px; font-weight: 900; outline: none;">
+            <p id="error-msg" style="color: var(--wrong); font-size: 12px; margin-top: 10px; opacity: 0; font-weight: 700; text-align: center;">BŁĘDNY KOD!</p>
+            <button id="verify-btn" class="btn-primary" style="margin-top: 30px; width: 100%;">POTWIERDŹ KOD</button>
+        </div>
+    </div>
+    <script src="particles.js"></script>
+    <script src="auth.js"></script>
+</body>
+</html>

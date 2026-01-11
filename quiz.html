@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - UNIMC.PL</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="canvas-wrapper"><canvas id="particleCanvas"></canvas></div>
+    <nav class="nav-tabs">
+        <a href="index.html" class="nav-link">Start</a>
+        <a href="wymagania.html" class="nav-link">Wymagania</a>
+        <a href="auth.html" class="nav-link active">Quiz</a>
+    </nav>
+    <div class="main-container">
+        <div id="quiz-card" class="glass-card card-entrance">
+            <div id="quiz-content" style="width: 100%; display: flex; flex-direction: column; height: 100%;">
+                <div class="card-header">
+                    <div class="progress-container">
+                        <span id="q-counter">ŁADOWANIE...</span>
+                        <div class="progress-track"><div id="progress-bar"></div></div>
+                    </div>
+                </div>
+                <div class="question-section" style="flex-grow: 1;">
+                    <h2 id="question-text" style="text-align: center; margin-bottom: 30px;">Pytanie pojawi się tutaj...</h2>
+                    <div id="options-grid" class="options-grid"></div>
+                </div>
+                <button id="next-btn" class="hidden btn-primary" style="margin-top: auto;">NASTĘPNE PYTANIE</button>
+            </div>
+            <div id="result-screen" class="hidden">
+                <div id="final-stats-layout"></div>
+            </div>
+        </div>
+    </div>
+    <div id="notification-container"></div>
+    <script src="particles.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
